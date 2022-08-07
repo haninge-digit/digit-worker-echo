@@ -14,13 +14,15 @@ DEBUG_MODE = os.getenv('DEBUG','false') == "true"                       # Global
 LOGFORMAT = "%(asctime)s %(funcName)-10s [%(levelname)s] %(message)s"   # Log format
 
 
-""" 
-Starting point
 """
-if __name__ == "__main__":
-    if DEBUG_MODE:       # Debug requested
-        logging.basicConfig(level=logging.DEBUG, format=LOGFORMAT)
-    logging.basicConfig(level=logging.INFO, format=LOGFORMAT)     # Default logging level
+MAIN function (starting point)
+"""
+def main():
+    # Enable logging. INFO is default. DEBUG if requested
+    logging.basicConfig(level=logging.DEBUG if DEBUG_MODE else logging.INFO, format=LOGFORMAT)
 
     asyncio.run(worker_loop(echo))     # Run echo worker in an async loop
 
+
+if __name__ == "__main__":
+    main()
