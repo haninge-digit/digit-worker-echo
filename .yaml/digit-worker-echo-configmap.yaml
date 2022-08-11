@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: digit-worker-echo-config
+  name: echo-config
   namespace: camunda-workers
 data:
   MOCKBIN: <mockbin proxy>    # Set to correct value
