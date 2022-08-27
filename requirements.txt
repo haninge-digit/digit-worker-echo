@@ -1,2 +1,5 @@
-zeebe-grpc==8.0.4
-httpx==0.23.0
+# httpx is for the worker
+httpx>=0.23.0,<0.24.0
+# The next two are for Zeebe communication
+zeebe-grpc>=8.0.4,<8.1.0
+grpcio>=1.47.0,<1.48.0
