@@ -27,6 +27,8 @@ spec:
               value: 'false'  # Change to 'true' for debugging
             - name: ZEEBE_ADDRESS
               value: camunda-zeebe-gateway.camunda-zeebe:26500
+            - name: USERINFOCASH
+              value: userinfocash.worker-services:8080
             - name: MOCKBIN
               valueFrom:
                 configMapKeyRef:

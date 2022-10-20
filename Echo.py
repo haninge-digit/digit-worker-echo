@@ -15,6 +15,7 @@ Environment
 MOCKBIN = os.getenv('MOCKBIN',"")
 IPIFY = os.getenv('IPIFY',"")
 INTMAIL = os.getenv('INTMAIL',"")
+USERINFOCASH = os.getenv('USERINFOCASH',"userinfocash.worker-services:8080")
 
 
 class Echo(object):
@@ -30,6 +31,35 @@ class Echo(object):
 
         if 'USERID' in vars:
             return {'loggedinuser':vars['userid'] if 'userid' in vars else ""}
+
+        if 'USERINFO' in vars:
+            userID = vars.get("userid","")
+            if userID == "":
+                userID = "196512123339"     # Nisse Johan Pärlemo
+            async with httpx.AsyncClient(timeout=10, verify=False) as client:
+                r = await client.get(f"http://{USERINFOCASH}/userinfo/{userID}")        # Get userinfo from cash system
+                if r.status_code != 200:
+                    return {'_DIGIT_ERROR': r.text, '_DIGIT_ERROR_STATUS_CODE': r.status_code}       # Error from userinfocash service
+
+            userinfo = r.json()
+            user = {}   # user values to return
+            user['personId'] = userinfo['PersonId'].strip()
+            if ',' in userinfo['GivenName']:
+                user['firstName'] = userinfo['GivenName'].split(',')[1].strip()    # Get first (given) name from last part of 'GivenName'
+            else:
+                user['firstName'] = userinfo['GivenName'].strip()      # Just grab what is there
+            user['lastName'] = userinfo['LastName'].strip()
+            user['fullName'] = userinfo['FirstName'].strip()+" "+userinfo['LastName'].strip()
+            user['address'] = userinfo['Address'].strip()
+            user['zipcode'] = userinfo['ZipCode'].strip()
+            user['city'] = userinfo['City'].strip()
+            # user['country'] = userinfo['Country'].strip()       # Skip this for now
+            user['municipalityCode'] = userinfo['MunicipalityCode'].strip()
+            for k,v in userinfo.items():
+                if k not in ['PersonId','Address','BirthPlace','City','CivilStatus','Country','FirstName','GivenName','LastName','ZipCode','MunicipalityCode','Parish','Relation']: # List of KIR data
+                    user[k] = v     # Added extra data that are not from KIR
+
+            return {'user': user}     # Return what we found
 
         if 'DELAY' in vars:
             delay = vars['DELAY'] if vars['DELAY'] != "" else "1"
