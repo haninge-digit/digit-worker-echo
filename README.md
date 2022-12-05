@@ -24,12 +24,7 @@ Delays a random amount of time between zero and <delay>. Default is 10 seconds.
 The user ID of the caller is returned. This parameter is always set på Optimizely to the logged in user. An empty value means that the user is not logged in.
 Returned parameter is "loggedinuser".
 
-## IPIFY
+## KIRTEST
 
-*?IPIFY*
-Returns the outgoing IP-adress of the cluster. The request, *https://api.ipify.org/?format=json*, is routed through the internal Haninge network proxy. Will return the cluster IP in the "ip" parameter.
-This is primarily a connectivity test.
-
-## EMAIL
-
-Will send a simple e-mail through the proxy. The only parameter is "EMAIL=*recipients e-mail adress*". The message sent is *Hej hopp i lingonskogen!*.
+*?KIRTEST*
+Tests the communication to KIR, which will also test the VPN.
