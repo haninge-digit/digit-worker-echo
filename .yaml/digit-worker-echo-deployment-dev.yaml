@@ -28,22 +28,42 @@ spec:
             - name: ZEEBE_ADDRESS
               value: camunda-zeebe-gateway.camunda-zeebe:26500
             - name: USERINFOCASH
-              value: userinfocash.worker-services:8080
-            - name: MOCKBIN
+              value: userinfocash:8080
+            - name: KIR_URL
               valueFrom:
-                configMapKeyRef:
-                  name: echo-config
-                  key: MOCKBIN
-            - name: IPIFY
+                secretKeyRef:
+                  name: kir-secret
+                  key: KIR_URL
+            - name: KIR_USER
               valueFrom:
-                configMapKeyRef:
-                  name: echo-config
-                  key: IPIFY
-            - name: INTMAIL
+                secretKeyRef:
+                  name: kir-secret
+                  key: KIR_USER
+            - name: KIR_PWD
               valueFrom:
-                configMapKeyRef:
-                  name: echo-config
-                  key: INTMAIL
+                secretKeyRef:
+                  name: kir-secret
+                  key: KIR_PWD
+            - name: AD_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ms365ad-secret
+                  key: AD_TENANT_ID
+            - name: AD_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ms365ad-secret
+                  key: AD_CLIENT_ID
+            - name: AD_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ms365ad-secret
+                  key: AD_CLIENT_SECRET
+            - name: MONGO_ROOT_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: mongodb-root-password
           resources:    # Might need to be tailored
             limits:
               memory: "128Mi"

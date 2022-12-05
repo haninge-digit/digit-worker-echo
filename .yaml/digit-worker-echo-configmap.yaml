@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: echo-config
-  namespace: camunda-workers
-data:
-  MOCKBIN: <mockbin proxy>    # Set to correct value
-  IPIFY: <ipify proxy>        # Set to correct value
-  INTMAIL: <intmail proxy>    # Set to correct value
